@@ -51,20 +51,17 @@ int salvardadoscliente(Cliente* inicio) {
 }
 int logincliente(Cliente* inicio, char user[], char pass[])
 {
-    while (inicio != NULL)
+    for (inicio; inicio != NULL; inicio = inicio->seguinte)
     {
         if (strstr(inicio->username, user) && strstr(inicio->password, pass))
         {
             printf("Login realizado com sucesso!\n");
             return(1);
         }
-        else
-        {
-            printf("login unsuccessful!\n");
-            exit(0);
-            return(0);
-        }
     }
+    printf("login sem sucesso! Username ou password incorretos!\n");
+    exit(0);
+    return(0);
 }
 Cliente* lerdados()
 {
