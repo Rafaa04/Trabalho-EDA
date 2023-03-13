@@ -15,8 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.c">
+    <ClCompile Include="EDA.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Funções.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Cliente.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gestor.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mobilidade.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cabeçalho.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
