@@ -12,13 +12,15 @@ typedef struct cliente
 	int NIF;
 	int codigo;
 	char morada[50];
+	float saldo;
 	struct registo* seguinte;
 }Cliente;
 
-Cliente* removercliente(Cliente* inicio, int codigo);
-Cliente* adicionarcliente(Cliente* inicio, char nome[], char username[], char password[], int contacto, int codigo, int NIF, char morada[]);
+Cliente* removercliente(Cliente* inicio, int NIF);
+Cliente* adicionarcliente(Cliente* inicio, char nome[], char username[], char password[], int contacto, int codigo, int NIF, char morada[], float saldo);
 void listarclientes(Cliente* inicio);
-Cliente* editarcliente(Cliente* inicio, char nome[], char username[], char password[], int contacto, int codigo, int NIF, char morada[]);
+void editarcliente(Cliente* inicio, int NIF);
 int salvardadoscliente(Cliente* inicio);
 int logincliente(Cliente* inicio, char user[], char pass[]);
 Cliente* lerdados();
+void saldo(Cliente* inicio,float saldo, int NIF);
