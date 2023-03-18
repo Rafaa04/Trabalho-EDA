@@ -23,4 +23,4 @@ void editarcliente(Cliente* inicio, int NIF);
 int salvardadoscliente(Cliente* inicio);
 int logincliente(Cliente* inicio, char user[], char pass[]);
 Cliente* lerdados();
-void saldo(Cliente* inicio,float saldo, int NIF);
+void adicionarsaldo(Cliente* inicio,float saldo, int NIF);

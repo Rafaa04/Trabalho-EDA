@@ -5,6 +5,9 @@
 #include <math.h>
 #include <conio.h>
 #include "Cliente.h"
+#include "Gestor.h"
+#include "Mobilidade.h"
+
 void clear() 
 {
 	system("@cls || clear");
@@ -12,43 +15,63 @@ void clear()
 int menu_c() 
 {
 	Cliente* cliente = NULL;
+	Mobilidade* mobilidade = NULL;
 	cliente = lerdados();
-	int opção, NIF2 = 0, NIF3 = 0;
-	float saldo1 = 0;
-	printf("|----------------MENU-----------------|\n");
-	printf("|1 - Carregar Saldo                   |\n");
-	printf("|2 - Mostrar Meios Disponiveis        |\n");
-	printf("|3 - Alugar Meios Disponiveis         |\n");
-	printf("|4 - Ver Historico De Aluguer Pessoal |\n");
-	printf("|5 - Editar Dados Da Conta            |\n");
-	printf("|0 - Sair                             |\n");
-	printf("|-------------------------------------|\n");
+	int codigo_mobilidade = 0, opção, NIF = 0, NIF2 = 0, NIF3 = 0, rsv;
+	float saldo1 = 0, bateria = 0;
+
+	printf("|-------------MENU CLIENTES------------|\n");
+	printf("|1 - Carregar Saldo                    |\n");
+	printf("|2 - Mostrar Meios Disponiveis         |\n");
+	printf("|3 - Alugar Meios Disponiveis          |\n");
+	printf("|4 - Editar Dados Da Conta             |\n");
+	printf("|0 - Sair                              |\n");
+	printf("|--------------------------------------|\n");
 	printf("Digite a opcao desejada:\n");
 	scanf("%d", &opção);
 	clear();
 	switch (opção)
 	{
 	case 1:
-		printf("Digite o NIF da conta: \n");
+		cliente = lerdados();
+		printf("Digite o NIF da conta: ");
 		scanf("%d", &NIF3);
-		printf("Qual o montante que deseja adicionar na conta: \n");
+		printf("Qual o montante que deseja adicionar na conta: ");
 		scanf("%f", &saldo1);
-		saldo(cliente, saldo1, NIF3);
+		adicionarsaldo(cliente, saldo1, NIF3);
 		salvardadoscliente(cliente);
 		clear();
 		menu_c();
 		break;
 	case 2:
+		mobilidade = lerdadosMobilidadebin();
+		//ordenaçãoMobilidade(mobilidade, bateria);
+		//listarMobilidade0(mobilidade, NIF);
+		//printf("\n");
+		//menu_c();
 		break;
 	case 3:
+		mobilidade = lerdadosMobilidadebin();
+		//ordenaçãoMobilidade(mobilidade, bateria);
+		//listarMobilidade0(mobilidade, rsv);
+		printf("\n");
+		printf("Introduza o seu NIF: ");
+		scanf("%d", &NIF);
+		printf("Introduza o codigo de mobilidade do veiculo que pretende alugar: ");
+		scanf("%d", &codigo_mobilidade);
+		mobilidade = alugarMobilidade(mobilidade, codigo_mobilidade, NIF);
+		salvardadosMobilidadetxt(mobilidade);
+		salvardadosMobilidadebin(mobilidade);
+		clear();
+		menu_c();
 		break;
 	case 4:
-		break;
-	case 5:
+		cliente = lerdados();
 		printf("Digite o NIF da conta a editar:\n");
 		scanf("%d", &NIF2);
 		editarcliente(cliente, NIF2);
 		salvardadoscliente(cliente);
+		clear();
 		menu_c();
 		break;
 	case 0:
@@ -64,25 +87,54 @@ int menu_c()
 int menu_g()
 {
 	Cliente* cliente = NULL;
+	Mobilidade* mobilidade = NULL;
 	cliente = lerdados();
-	int opção, contacto, codigo, NIF, NIF2;
+	mobilidade = lerdadosMobilidadebin();
+	int opção, contacto, codigo, NIF, NIF2, NIF3;
 	char username[50], password[50], nome[50], morada[50];
-	float saldo = 0;
-	printf("|----------------MENU-----------------|\n");
-	printf("|1 - Inserir Novo Meio                |\n");
-	printf("|2 - Inserir Cliente                  |\n");
-	printf("|3 - Listar Meios Disponiveis         |\n");
-	printf("|4 - Listar Clientes Registados       |\n");
-	printf("|5 - Remover Meio Existente           |\n");
-	printf("|6 - Remover Cliente Registado        |\n");
-	printf("|0 - Sair                             |\n");
-	printf("|-------------------------------------|\n");
+	float saldo = 0, saldo1;
+
+	char tipo_meio[50], localização[50], autonomia[50];
+	int codigo_mobilidade = 0, codigo_reserva = 0, rsv = 0, NIF_mobilidade = 0;
+	float bateria, preço;
+
+	printf("|-------------MENU GESTORES------------|\n");
+	printf("|1 - Inserir Novo Meio                 |\n");
+	printf("|2 - Inserir Cliente                   |\n");
+	printf("|3 - Listar Todos Os Meios             |\n");
+	printf("|4 - Listar Clientes Registados        |\n");
+	printf("|5 - Editar Meio Existente             |\n");
+	printf("|6 - Remover Meio Existente            |\n");
+	printf("|7 - Remover Cliente Registado         |\n");
+	printf("|8 - Adicionar Saldo A Cliente         |\n");
+	printf("|0 - Sair                              |\n");
+	printf("|--------------------------------------|\n");
 	printf("\nDigite a opcao desejada:\n");
 	scanf("%d", &opção);
 	clear();
 	switch (opção)
 	{
 	case 1:
+		mobilidade = lerdadosMobilidadebin();
+		printf("Preencha atentamente as informacoes pedidas!\n\n");
+		scanf("%*c");
+		printf("Codigo de mobilidade: ");
+		scanf("%d", &codigo_mobilidade);
+		printf("Bateria: ");
+		scanf("%f", &bateria);
+		printf("Autonomia: ");
+		scanf("%s", &autonomia);
+		printf("Tipo De Meio: ");
+		scanf("%s", &tipo_meio);
+		printf("Localizacao: ");
+		scanf("%s", &localização);
+		printf("Preco Por Minuto: ");
+		scanf("%f", &preço);
+		mobilidade = adicionarMobilidade(mobilidade, codigo_mobilidade, codigo_reserva, rsv, NIF_mobilidade, bateria, autonomia, tipo_meio, localização, preço);
+		salvardadosMobilidadetxt(mobilidade);
+		salvardadosMobilidadebin(mobilidade);
+		clear();
+		menu_g();
 		break;
 	case 2:
 		printf("Preencha atentamente as informacoes pedidas!\n\n");
@@ -104,21 +156,61 @@ int menu_g()
 		gets(morada);
 		cliente = adicionarcliente(cliente, nome, username, password, contacto, codigo, NIF, morada, saldo);
 		salvardadoscliente(cliente);
+		clear();
+		menu_g();
 		break;
 	case 3:
+		mobilidade = lerdadosMobilidadebin();
+		//ordenaçãoMobilidade(mobilidade, bateria);
+		listarMobilidade(mobilidade);
+		printf("\n");
+		menu_g();
+		clear();
 		break;
 	case 4:
+		cliente = lerdados();
 		listarclientes(cliente);
 		printf("\n");
 		menu_g();
 		break;
 	case 5:
+		printf("Introduza o codigo de mobilidade: ");
+		scanf("%d", &codigo_mobilidade);
+		clear();
+		editarMobilidade(mobilidade, codigo_mobilidade);
+		salvardadosMobilidadetxt(mobilidade);
+		salvardadosMobilidadebin(mobilidade);
+		clear();
+		menu_g();
 		break;
 	case 6:
+		printf("Introduza o codigo de mobilidade: ");
+		scanf("%d", &codigo_mobilidade);
+		mobilidade = removerMobilidade(mobilidade, codigo_mobilidade);
+		salvardadosMobilidadetxt(mobilidade);
+		salvardadosMobilidadebin(mobilidade);
+		clear();
+		menu_g();
+		break;
+	case 7:
+		cliente = lerdados();
 		printf("Introduza o NIF do cliente a remover: ");
 		scanf("%d", &NIF2);
 		cliente = removercliente(cliente, NIF2);
 		salvardadoscliente(cliente);
+		clear();
+		menu_g();
+		break;
+	case 8:
+		cliente = lerdados();
+		printf("Digite o NIF da conta: ");
+		scanf("%d", &NIF3);
+		printf("Qual o montante que deseja adicionar na conta: ");
+		scanf("%f", &saldo1);
+		adicionarsaldo(cliente, saldo1, NIF3);
+		salvardadoscliente(cliente);
+		clear();
+		menu_g();
 		break;
 	case 0:
 		exit(0);
@@ -134,6 +226,7 @@ int main()
 	Cliente* cliente = NULL;
 	cliente = lerdados();
 	char username[50], password[50], nome[50], morada[50], user = 'lesi', pass = 'lesi';
+	char localização[50];
 	int contacto, codigo, NIF;
 	int opção, opção1;
 	float saldo = 0;
