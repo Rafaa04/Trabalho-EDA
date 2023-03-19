@@ -17,7 +17,7 @@ int menu_c()
 	Cliente* cliente = NULL;
 	Mobilidade* mobilidade = NULL;
 	cliente = lerdados();
-	int codigo_mobilidade = 0, opção, NIF = 0, NIF2 = 0, NIF3 = 0, rsv;
+	int codigo = 0, opção, NIF = 0, NIF2 = 0, NIF3 = 0, rsv, codigo_reserva;
 	float saldo1 = 0, bateria = 0;
 
 	printf("|-------------MENU CLIENTES------------|\n");
@@ -45,21 +45,21 @@ int menu_c()
 		break;
 	case 2:
 		mobilidade = lerdadosMobilidadebin();
-		//ordenaçãoMobilidade(mobilidade, bateria);
-		//listarMobilidade0(mobilidade, NIF);
-		//printf("\n");
-		//menu_c();
+		ordenaçãoMobilidade(mobilidade, bateria);
+		listarMobilidade0(mobilidade);
+		printf("\n");
+		menu_c();
 		break;
 	case 3:
 		mobilidade = lerdadosMobilidadebin();
-		//ordenaçãoMobilidade(mobilidade, bateria);
-		//listarMobilidade0(mobilidade, rsv);
+		ordenaçãoMobilidade(mobilidade, bateria);
+		listarMobilidade0(mobilidade);
 		printf("\n");
 		printf("Introduza o seu NIF: ");
 		scanf("%d", &NIF);
 		printf("Introduza o codigo de mobilidade do veiculo que pretende alugar: ");
-		scanf("%d", &codigo_mobilidade);
-		mobilidade = alugarMobilidade(mobilidade, codigo_mobilidade, NIF);
+		scanf("%d", &codigo);
+		mobilidade = alugarMobilidade(mobilidade, NIF, codigo);
 		salvardadosMobilidadetxt(mobilidade);
 		salvardadosMobilidadebin(mobilidade);
 		clear();
@@ -79,6 +79,7 @@ int menu_c()
 		break;
 	default:
 		printf("Opcao invalida.\n");
+		exit(0);
 		break;
 	}
 	salvardadoscliente(cliente);
@@ -130,7 +131,7 @@ int menu_g()
 		scanf("%s", &localização);
 		printf("Preco Por Minuto: ");
 		scanf("%f", &preço);
-		mobilidade = adicionarMobilidade(mobilidade, codigo_mobilidade, codigo_reserva, rsv, NIF_mobilidade, bateria, autonomia, tipo_meio, localização, preço);
+		mobilidade = adicionarMobilidade(mobilidade, codigo_mobilidade, NIF_mobilidade, rsv, bateria, autonomia, tipo_meio, localização, preço);
 		salvardadosMobilidadetxt(mobilidade);
 		salvardadosMobilidadebin(mobilidade);
 		clear();
@@ -161,7 +162,7 @@ int menu_g()
 		break;
 	case 3:
 		mobilidade = lerdadosMobilidadebin();
-		//ordenaçãoMobilidade(mobilidade, bateria);
+		ordenaçãoMobilidade(mobilidade);
 		listarMobilidade(mobilidade);
 		printf("\n");
 		menu_g();
@@ -217,6 +218,7 @@ int menu_g()
 		break;
 	default:
 		printf("Opcao invalida.\n");
+		exit(0);
 		break;
 	}
 	return(opção);
@@ -286,6 +288,7 @@ int main()
 			break;
 		default:
 			printf("Opcao invalida.\n");
+			exit(0);
 			break;
 		}
 		salvardadoscliente(cliente);

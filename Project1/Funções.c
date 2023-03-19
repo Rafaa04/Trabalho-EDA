@@ -208,15 +208,14 @@ void adicionarsaldo(Cliente* inicio, float saldo, int NIF)
 
 //****************************************************************************************************************************************************//
 
-Mobilidade* adicionarMobilidade(Mobilidade* inicio, int codigo, int codigo_reserva, int NIF, int rsv, float bateria, char autonomia[], char tipomeio[], char localização[], float preço)
+Mobilidade* adicionarMobilidade(Mobilidade* inicio, int codigo, int NIF, int rsv, float bateria, char autonomia[], char tipomeio[], char localização[], float preço)
 {
     Mobilidade* novo = malloc(sizeof(struct mobilidade));
     if (novo != NULL)
     {
         novo->codigo = codigo;
-        novo->codigo_reserva = codigo_reserva;
-        novo->rsv = rsv;
         novo->NIF = NIF;
+        novo->rsv = rsv;
         novo->bateria = bateria;
         strcpy(novo->autonomia, autonomia);
         strcpy(novo->tipomeio, tipomeio);
@@ -241,7 +240,7 @@ Mobilidade* lerdadosMobilidadebin()
         Mobilidade inicio;
         while (fread(&inicio, sizeof(Mobilidade), 1, fp) == 1)
         {
-            mobilidade = adicionarMobilidade(mobilidade, inicio.codigo, inicio.codigo_reserva,inicio.rsv, inicio.NIF, inicio.bateria,inicio.autonomia, inicio.tipomeio, inicio.localização, inicio.preço);
+            mobilidade = adicionarMobilidade(mobilidade, inicio.codigo, inicio.NIF, inicio.rsv, inicio.bateria,inicio.autonomia, inicio.tipomeio, inicio.localização, inicio.preço);
         }
         fclose(fp);
     }
@@ -257,9 +256,8 @@ int salvardadosMobilidadetxt(Mobilidade* inicio) {
         while (mobilidade != NULL)
         {
             fprintf(fp, "%d;", mobilidade->codigo);
-            fprintf(fp, "%d;", mobilidade->codigo_reserva);
-            fprintf(fp, "%d;", mobilidade->rsv);
             fprintf(fp, "%d;", mobilidade->NIF);
+            fprintf(fp, "%d;", mobilidade->rsv);
             fprintf(fp, "%.2f;", mobilidade->bateria);
             fprintf(fp, "%skm;", mobilidade->autonomia);
             fprintf(fp, "%s;", mobilidade->tipomeio);
@@ -303,7 +301,7 @@ void listarMobilidade0(Mobilidade* inicio)
     {
         if (inicio->rsv == 0) 
         {
-            printf("Codigo:%d;Codigo_reserva:%d;Tipo de meio:%s;Bateria:%.2f;Autonomia:%skm;Localização:%s;Preço:%.2f por minuto;Reserva:%d\n", inicio->codigo, inicio->codigo_reserva, inicio->tipomeio, inicio->bateria, inicio->autonomia, inicio->localização, inicio->preço, inicio->rsv);
+            printf("Codigo:%d;NIF:%d;Reserva:%d;Tipo de meio:%s;Bateria:%.2f;Autonomia:%skm;Localizacao:%s;Preco:%.2f por minuto;\n", inicio->codigo, inicio->NIF, inicio->rsv, inicio->tipomeio, inicio->bateria, inicio->autonomia, inicio->localização, inicio->preço);
             inicio = inicio->seguinte;
         }
         else
@@ -318,9 +316,9 @@ void listarMobilidade1(Mobilidade* inicio)
 {
     while (inicio != NULL)
     {
-        if (inicio->rsv == 1)
+        if (inicio-> rsv == 1)
         {
-            printf("Codigo:%d;Codigo_reserva:%d;Tipo de meio:%s;Bateria:%.2f;Autonomia:%skm;Localização:%s;Preço:%.2f por minuto;Reserva:%d\n", inicio->codigo, inicio->codigo_reserva, inicio->tipomeio, inicio->bateria, inicio->autonomia, inicio->localização, inicio->preço, inicio->rsv);
+            printf("Codigo:%d;NIF:%d;Reserva:%d;Tipo de meio:%s;Bateria:%.2f;Autonomia:%skm;Localizacao:%s;Preco:%.2f por minuto;\n", inicio->codigo, inicio->NIF, inicio->rsv, inicio->tipomeio, inicio->bateria, inicio->autonomia, inicio->localização, inicio->preço);
             inicio = inicio->seguinte;
         }
         else
@@ -419,21 +417,21 @@ void ordenaçãoMobilidade(Mobilidade* inicio) {
 
     for (atual; atual != NULL; atual = atual->seguinte) {
         for (mobilidade = atual->seguinte; mobilidade != NULL; mobilidade = mobilidade->seguinte) {
-            if (atual->bateria > mobilidade->bateria) {
-                aux = atual->bateria;
-                atual->bateria = mobilidade->bateria;
-                mobilidade->bateria = aux;
+            if (atual->bateria < mobilidade->bateria) {
+                aux = mobilidade->bateria;
+                mobilidade->bateria = atual->bateria;
+                atual->bateria = aux;
             }
         }
     }
 }
-Mobilidade* alugarMobilidade(Mobilidade* inicio, int codigo_reserva, int NIF)
+Mobilidade* alugarMobilidade(Mobilidade* inicio, int NIF, int rsv)
 {
     while (inicio != NULL)
     {
-        if (inicio->codigo == codigo_reserva)
+        if (inicio->codigo == rsv)
         {
-            inicio->codigo_reserva = NIF;
+            inicio->NIF = NIF;
             inicio->rsv = 1;
             return(inicio);
         }
@@ -443,4 +441,4 @@ Mobilidade* alugarMobilidade(Mobilidade* inicio, int codigo_reserva, int NIF)
         }
     }
 
-} // nao percebi bem onde era para por NIF, codigo_reserva e codigo.
+} 
