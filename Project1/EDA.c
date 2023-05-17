@@ -7,6 +7,7 @@
 #include "Cliente.h"
 #include "Gestor.h"
 #include "Mobilidade.h"
+#include "Struct Grafos.h"
 
 void clear() 
 {
@@ -16,6 +17,7 @@ int menu_c()
 {
 	Cliente* cliente = NULL;
 	Mobilidade* mobilidade = NULL;
+	Grafo* grafo = NULL;
 	cliente = lerdados();
 	int codigo = 0, opção, NIF = 0, NIF2 = 0, NIF3 = 0, rsv, codigo_reserva;
 	float saldo1 = 0, bateria = 0;
@@ -89,9 +91,10 @@ int menu_g()
 {
 	Cliente* cliente = NULL;
 	Mobilidade* mobilidade = NULL;
+	Grafo* grafo = NULL;
 	cliente = lerdados();
 	mobilidade = lerdadosMobilidadebin();
-	int opção, contacto, codigo, NIF, NIF2, NIF3;
+	int opção, contacto, codigo, NIF, NIF2, NIF3, Vertice, VerticeI, VerticeF, Aresta;
 	char username[50], password[50], nome[50], morada[50];
 	float saldo = 0, saldo1;
 
@@ -108,6 +111,12 @@ int menu_g()
 	printf("|6 - Remover Meio Existente            |\n");
 	printf("|7 - Remover Cliente Registado         |\n");
 	printf("|8 - Adicionar Saldo A Cliente         |\n");
+	printf("|9 - Criar Um Vertice A Um Grafo       |\n");
+	printf("|10 - Criar Uma Aresta A Um Grafo      |\n");
+	printf("|11 - Atribuir Um Cliente A Um Vertice |\n");
+	printf("|12 - Atribuir Um Meio A Um Grafo      |\n");
+	printf("|13 - Mostrar Os Meios No Grafo        |\n");
+	printf("|14 - Visualizar Um Grafo              |\n");
 	printf("|0 - Sair                              |\n");
 	printf("|--------------------------------------|\n");
 	printf("\nDigite a opcao desejada:\n");
@@ -213,8 +222,25 @@ int menu_g()
 		clear();
 		menu_g();
 		break;
+	case 9:
+		printf("Digite o numero do vertice que pretende criar: ");
+		scanf("%d", &Vertice);
+		criarVertice(&grafo, Vertice);
+		clear();
+		menu_g();
+	case 10:
+		printf("Digite o numero do vertice inicial: ");
+		scanf("%d", &VerticeI);
+		printf("Digite o numero do vertice final: ");
+		scanf("%d", &VerticeF);
+		printf("Digite o peso da aresta que pretende criar: ");
+		scanf("%d", &Aresta);
+		criarAresta(grafo, VerticeI, VerticeF, Aresta);
+		clear();
+		menu_g();
 	case 0:
 		exit(0);
+		gravarGrafo(grafo);
 		break;
 	default:
 		printf("Opcao invalida.\n");

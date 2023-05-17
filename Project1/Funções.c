@@ -5,6 +5,7 @@
 #include "Cliente.h"
 #include "Gestor.h"
 #include "Mobilidade.h"
+#include "Histórico.h"
 
 Cliente* removercliente(Cliente* inicio, int NIF)
 {

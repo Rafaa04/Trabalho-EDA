@@ -129,11 +129,14 @@
   <ItemGroup>
     <ClCompile Include="Funções.c" />
     <ClCompile Include="EDA.c" />
+    <ClCompile Include="Funções Grafos.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cabeçalho.h" />
     <ClInclude Include="Cliente.h" />
+    <ClInclude Include="Struct Grafos.h" />
     <ClInclude Include="Gestor.h" />
+    <ClInclude Include="Histórico.h" />
     <ClInclude Include="Mobilidade.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

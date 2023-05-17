@@ -21,6 +21,9 @@
     <ClCompile Include="Funções.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Funções Grafos.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cliente.h">
@@ -33,6 +36,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Cabeçalho.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Histórico.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Struct Grafos.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
