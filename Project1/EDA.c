@@ -94,7 +94,7 @@ int menu_g()
 	Grafo* grafo = NULL;
 	cliente = lerdados();
 	mobilidade = lerdadosMobilidadebin();
-	int opção, contacto, codigo, NIF, NIF2, NIF3, Vertice, VerticeI, VerticeF, Aresta;
+	int opção, contacto, codigo, NIF, NIF2, NIF3, Vertice, VerticeI, VerticeF, Aresta, VerticeA;
 	char username[50], password[50], nome[50], morada[50];
 	float saldo = 0, saldo1;
 
@@ -113,10 +113,10 @@ int menu_g()
 	printf("|8 - Adicionar Saldo A Cliente         |\n");
 	printf("|9 - Criar Um Vertice A Um Grafo       |\n");
 	printf("|10 - Criar Uma Aresta A Um Grafo      |\n");
-	printf("|11 - Atribuir Um Cliente A Um Vertice |\n");
-	printf("|12 - Atribuir Um Meio A Um Grafo      |\n");
-	printf("|13 - Mostrar Os Meios No Grafo        |\n");
-	printf("|14 - Visualizar Um Grafo              |\n");
+	printf("|11 - Visualizar Vertices Adjacentes   |\n");
+	printf("|12 - Atribuir Um Cliente A Um Vertice |\n");
+	printf("|13 - Atribuir Um Meio A Um Grafo      |\n");
+	printf("|14 - Mostrar Os Meios No Grafo        |\n");
 	printf("|0 - Sair                              |\n");
 	printf("|--------------------------------------|\n");
 	printf("\nDigite a opcao desejada:\n");
@@ -136,8 +136,7 @@ int menu_g()
 		scanf("%s", &autonomia);
 		printf("Tipo De Meio: ");
 		scanf("%s", &tipo_meio);
-		printf("Localizacao: ");
-		scanf("%s", &localização);
+		Ruas(localização);
 		printf("Preco Por Minuto: ");
 		scanf("%f", &preço);
 		mobilidade = adicionarMobilidade(mobilidade, codigo_mobilidade, NIF_mobilidade, rsv, bateria, autonomia, tipo_meio, localização, preço);
@@ -223,12 +222,15 @@ int menu_g()
 		menu_g();
 		break;
 	case 9:
+		grafo = lerdadosGrafo();
 		printf("Digite o numero do vertice que pretende criar: ");
 		scanf("%d", &Vertice);
 		criarVertice(&grafo, Vertice);
 		clear();
+		gravarGrafo(grafo);
 		menu_g();
 	case 10:
+		grafo = lerdadosGrafo();
 		printf("Digite o numero do vertice inicial: ");
 		scanf("%d", &VerticeI);
 		printf("Digite o numero do vertice final: ");
@@ -237,10 +239,15 @@ int menu_g()
 		scanf("%d", &Aresta);
 		criarAresta(grafo, VerticeI, VerticeF, Aresta);
 		clear();
+		gravarGrafo(grafo);
 		menu_g();
+	case 11:
+		grafo = lerdadosGrafo();
+		printf("Digite o numero do vertice que pretende para ver os seus adjacentes: ");
+		scanf("%d", &VerticeA);
+		listarAdjacentes(grafo, VerticeA);
 	case 0:
 		exit(0);
-		gravarGrafo(grafo);
 		break;
 	default:
 		printf("Opcao invalida.\n");

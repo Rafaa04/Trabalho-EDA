@@ -26,3 +26,4 @@ void listarMobilidade(Mobilidade* inicio);
 Mobilidade* lerdadosMobilidadebin();
 void ordenaçãoMobilidade(Mobilidade* inicio);
 Mobilidade* alugarMobilidade(Mobilidade* inicio, int NIF, int rsv);
+char Ruas(char localização[]);

@@ -443,3 +443,40 @@ Mobilidade* alugarMobilidade(Mobilidade* inicio, int NIF, int rsv)
     }
 
 } 
+char Ruas(char localização[])
+{
+    int r = 0;
+    printf("Escolha um destes locais:\n");
+    printf("1 - Rua Jacinto Vieira;2 - Rua 8 de Setembro;3 - Rua de Mazagão;4 - Rua do Miradouro;5 - Rua do Bairro;6 - Travessa das Glicinias");
+    scanf("%d", &r);
+    if (r == 1)
+    {
+        strcpy(localização, "batem.soma.babados");
+        return(localização);
+    }
+    if (r == 2)
+    {
+        strcpy(localização, "duelo.geada.tear");
+        return(localização);
+    }
+    if (r == 3)
+    {
+        strcpy(localização, "inicio.dívidas.festas");
+        return(localização);
+    }
+    if (r == 4)
+    {
+        strcpy(localização, "bagre.enfim.noites");
+        return(localização);
+    }
+    if (r == 5)
+    {
+        strcpy(localização, "copão.ganhar.troço");
+        return(localização);
+    }
+    if (r == 6)
+    {
+        strcpy(localização, "farto.cheirosa.mentas");
+        return(localização);
+    }
+}

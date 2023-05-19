@@ -69,16 +69,30 @@ int criarAresta(Grafo g, char vOrigem, char vDestino, int peso)
 // Listar os vértices adjacentes 
 void listarAdjacentes(Grafo g, int id)
 {
-	Adjacente aux;
-	if (existeVertice(g, id))
+	if (g == NULL)
 	{
-		while (g->id == id) g = g->seguinte;
-		aux = g->adjacentes;
-		while (aux != NULL)
-		{
-			printf("Adjacente:%s;Peso:%.2f\n", aux->id, aux->peso);
-			aux = aux->seguinte;
-		}
+		printf("Grafo nao inicializado!\n");
+		return;
+	}
+	while (g != NULL && g->id != id)
+	{
+		g = g->seguinte;
+	}
+	if (g == NULL)
+	{
+		printf("Verttice nao encontrado!\n");
+		return;
+	}
+	if (g->adjacentes == NULL)
+	{
+		printf("Sem adjacentes!\n");
+		return;
+	}
+	Adjacente aux = g->adjacentes;
+	while (aux != NULL)
+	{
+		printf("Adjacente:%d;Peso:%d;\n", aux->id, aux->peso);
+		aux = aux->seguinte;
 	}
 }
 
@@ -128,27 +142,98 @@ void listarMeios(Grafo g, int id)
 }
 
 void gravarGrafo(Grafo g) {
+	Adjacente adjacentes;
 	int a = 0, b = 0;
 	FILE* fp;
+
 	fp = fopen("Grafo.txt", "w");
 	if (fp != NULL)
 	{
 		while (g != NULL)
 		{
-			Adjacente adjacentes = g->adjacentes;
+			adjacentes = g->adjacentes;
 			if (adjacentes == NULL)
 			{
-				fprintf(fp, "%d;%d;%d", g->id, a, b);
+				fprintf(fp, "%d;%d;%d;\n", g->id, a, b);
 			}
 			else
 			{
 				while (adjacentes != NULL)
 				{
-					fprintf(fp, "%d;%d;%d", adjacentes->id, adjacentes->peso);
+					fprintf(fp, "%d;%d;%d;\n", g->id, adjacentes->id, adjacentes->peso);
 					adjacentes = adjacentes->seguinte;
 				}
 			}
 			g = g->seguinte;
 		}
+		fclose(fp);
+	}
+	else
+	{
+		printf("O ficheiro esta corrompido!\n");
+	}
+}
+Grafo* lerdadosGrafo()
+{
+	FILE* fp;
+	Grafo* grafo = NULL;
+
+	fp = fopen("Grafo.txt", "r");
+	int idI = 0, idF = 0, peso = 0;
+
+	if (fp != NULL)
+	{
+		while (!feof(fp))
+		{
+			fscanf(fp, "%d;%d;%d\n", &idI, &idF, &peso);
+			if (idF == 0 && peso == 0) 
+			{
+				criarVertice(&grafo, idI);
+			}
+			else
+			{
+				criarVertice(&grafo, idI);
+				criarVertice(&grafo, idF);
+				criarAresta(grafo, idI, idF, peso);
+			}
+		}
+		fclose(fp);
+	}
+	return(grafo);
+}
+
+char RuasG(char localização[], int r)
+{
+	printf("Escolha um destes locais: ");
+	printf("1 - Rua Jacinto Vieira;2 - Rua 8 de Setembro;3 - Rua de Mazagão;4 - Rua do Miradouro;5 - Rua do Bairro;6 - Travessa das Glicinias");
+	if (r == 1)
+	{
+		strcpy(localização, "batem.soma.babados");
+		return(localização);
+	}
+	if (r == 2)
+	{
+		strcpy(localização, "duelo.geada.tear");
+		return(localização);
+	}
+	if (r == 3)
+	{
+		strcpy(localização, "inicio.dívidas.festas");
+		return(localização);
+	}
+	if (r == 4)
+	{
+		strcpy(localização, "bagre.enfim.noites");
+		return(localização);
+	}
+	if (r == 5)
+	{
+		strcpy(localização, "copão.ganhar.troço");
+		return(localização);
+	}
+	if (r == 6)
+	{
+		strcpy(localização, "farto.cheirosa.mentas");
+		return(localização);
 	}
 }
