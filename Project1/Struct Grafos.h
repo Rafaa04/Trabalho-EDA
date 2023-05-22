@@ -15,8 +15,7 @@ typedef struct registo4
 
 typedef struct registo3
 {
-	int codigo;
-	char geocódigo[50];
+	int codigoMeio;
 	struct registo3* seguinte;
 } *Meios;
 
@@ -31,6 +30,7 @@ typedef struct registo2
 typedef struct registo1
 {
 	int id;
+	char geocódigo[50];
     Adjacente adjacentes;
 	Meios meios;
 	Clientes Cliente;
@@ -42,7 +42,7 @@ int criarVertice(Grafo* g, int novoid);
 int criarAresta(Grafo g, char vOrigem, char vDestino, int peso);
 int existeVertice(Grafo g, int id);
 void listarAdjacentes(Grafo g, int id);
-int inserirMeio(Grafo g, int id, int codigoMeio);
+int inserirMeio(Grafo g, int id, char geocódigo[], int codigoMeio);
 void listarMeios(Grafo g, int id);
 int inserirCliente(Grafo g, int id, int codigonif);
 void gravarGrafo(Grafo g);

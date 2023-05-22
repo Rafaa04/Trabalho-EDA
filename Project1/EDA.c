@@ -243,7 +243,7 @@ int menu_g()
 		menu_g();
 	case 11:
 		grafo = lerdadosGrafo();
-		printf("Digite o numero do vertice que pretende para ver os seus adjacentes: ");
+		printf("Digite o numeroo do vertice que pretende para ver os seus adjacentes: ");
 		scanf("%d", &VerticeA);
 		listarAdjacentes(grafo, VerticeA);
 	case 0:

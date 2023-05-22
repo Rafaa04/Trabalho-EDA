@@ -98,22 +98,35 @@ void listarAdjacentes(Grafo g, int id)
 
 // Inserir meio de transporte na localização com geocódigo passado por parâmetro
 // Devolve 1 em caso de sucesso ou 0 caso contrário
-int inserirMeio(Grafo g, int id , int codigoMeio)
+int inserirMeio(Grafo g, int id, char geocódigo[], int codigoMeio)
 {
+	Mobilidade* mobilidade;
 	while (g != NULL)
 	{
-		if (id == id)
+		if (g->id == id)
 		{
-			Meios novo = malloc(sizeof(struct registo3));
-			novo->codigo = codigoMeio;
-			novo->seguinte = g->meios;
-			g->meios = novo;
-			return(1);
+			while (mobilidade != NULL)
+			{
+				if (strcmp(g->geocódigo, mobilidade->localização) == 0)
+				{
+					Meios novo = malloc(sizeof(struct registo3));
+					novo->codigoMeio = codigoMeio;
+					novo->seguinte = g->meios;
+					g->meios = novo;
+					return(1);
+				}
+				else
+				{
+					mobilidade = mobilidade->seguinte;
+				}
+			}
 		}
-		else {
+		else 
+		{
 			g = g->seguinte;
 		}
 	}
+	printf("O geocodigo do meio nao e o mesmo do vertice!");
 }
 
 // Listar os códigos dos meios de transporte presente numa determinada localização passada por parâmetro
@@ -132,7 +145,7 @@ void listarMeios(Grafo g, int id)
 				{
 					while (aux != NULL)
 					{
-						printf("Codigo meio: %d\n", aux->codigo);
+						printf("Codigo meio: %d\n", aux->codigoMeio);
 						aux = aux->seguinte;
 					}
 				}
