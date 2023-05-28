@@ -99,11 +99,12 @@ int menu_g()
 	float saldo = 0, saldo1;
 
 	char tipo_meio[50], localização[50], autonomia[50];
-	int codigo_mobilidade = 0, codigo_mobilidade_grafo, id_vertice_mobilidade_grafo, id_vertice_cliente_grafo, NIF_cliente_mobilidade_grafo, id_V_listarmeios, codigo_reserva = 0, rsv = 0, NIF_mobilidade = 0;
+	char localizacao[50];
+	int codigo_mobilidade = 0, codigo_mobilidade_grafo, id_vertice_mobilidade_grafo, id_vertice_cliente_grafo, NIF_cliente_mobilidade_grafo, id_V_listarmeios, id_V_listarclientes, verticeraio, raio=0, codigo_reserva = 0, rsv = 0, NIF_mobilidade = 0;
 	float bateria, preço;
 
 	printf("|--------------MENU GESTORES-------------|\n");
-	printf("|1 - Inserir Novo Meioo                  |\n");
+	printf("|1 - Inserir Novo Meio                   |\n");
 	printf("|2 - Inserir Cliente                     |\n");
 	printf("|3 - Listar Todos Os Meios               |\n");
 	printf("|4 - Listar Clientes Registados          |\n");
@@ -283,8 +284,29 @@ int menu_g()
 		grafo = lerdadosGrafoVertice(grafo, mobilidade, cliente);
 		printf("Digite o id do vertice: \n");
 		scanf("%d", &id_V_listarmeios);
-		listarMeios(grafo, id_vertice_cliente_grafo);
+		listarMeios(grafo, id_V_listarmeios);
 		break;
+	case 15:
+		grafo = lerdadosGrafo(grafo);
+		grafo = lerdadosGrafoVertice(grafo, mobilidade, cliente);
+		printf("Digite o id do vertice: \n");
+		scanf("%d", &id_V_listarclientes);
+		ListarClientes(grafo, id_V_listarclientes);
+		menu_g();
+		break;
+	case 16:
+		/*
+		grafo = lerdadosGrafo(grafo);
+		grafo = lerdadosGrafoVertice(grafo, mobilidade, cliente);
+		printf("Introduza o id do vertice: \n");
+		scanf("%d", &verticeraio);
+		printf("Introduza o raio pretendido: \n");
+		scanf("%d", &raio);
+		ListarporDistancia(grafo, verticeraio, raio);
+		break;
+		menu_g();
+		break;
+		*/
 	case 0:
 		exit(0);
 		break;

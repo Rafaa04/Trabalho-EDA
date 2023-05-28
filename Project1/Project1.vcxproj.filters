@@ -44,5 +44,8 @@
     <ClInclude Include="Struct Grafos.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

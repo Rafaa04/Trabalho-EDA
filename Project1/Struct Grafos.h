@@ -3,10 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Representar um grafo orientado e pesado através da definição de 
-// uma lista ligada de listas ligadas
-
-
 typedef struct registo4
 {
 	int codigo;
@@ -52,3 +48,4 @@ Grafo* lerdadosGrafo(Grafo g);
 char RuasG(char localização[], int r);
 void gravarGrafoVertice(Grafo g);
 Grafo lerdadosGrafoVertice(Grafo* g, Mobilidade* inicio, Cliente* c);
+void ListarporDistancia(Grafo* g, int id);

@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClInclude Include="Cabeçalho.h" />
     <ClInclude Include="Cliente.h" />
+    <ClInclude Include="Header.h" />
     <ClInclude Include="Struct Grafos.h" />
     <ClInclude Include="Gestor.h" />
     <ClInclude Include="Histórico.h" />

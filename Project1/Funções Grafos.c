@@ -308,13 +308,13 @@ void ListarMeios(Grafo g, int id)
 			Meios aux = g->meios;
 			if (aux == NULL)
 			{
-				printf("sem meios de transporte\n");
+				printf("Sem meios de transporte!\n");
 			}
 			else
 			{
 				while (aux != NULL)
 				{
-					printf("Codigo meio: %d\n", aux->codigoMeio);
+					printf("\nCodigo do meio atribuido: %d\n", aux->codigoMeio);
 					aux = aux->seguinte;
 				}
 			}
@@ -322,23 +322,22 @@ void ListarMeios(Grafo g, int id)
 		g = g->seguinte;
 	}
 }
-
 void ListarClientes(Grafo g, int id)
 {
 	while (g != NULL)
 	{
 		if (g->id == id)
 		{
-			Clientes aux = g->meios;
+			Clientes aux = g->Cliente;
 			if (aux == NULL)
 			{
-				printf("sem clientes\n");
+				printf("Sem clientes\n");
 			}
 			else
 			{
 				while (aux != NULL)
 				{
-					printf("Codigo meio: %d\n", aux->codigo);
+					printf("NIF do Cliente: %d\n", aux->codigo);
 					aux = aux->seguinte;
 				}
 			}
