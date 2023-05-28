@@ -35,6 +35,24 @@ int existeVertice(Grafo g, int id)
 	return(0);
 }
 
+int existeVertice2(Grafo g, int id)
+{
+	int a = 1;
+	while (g != NULL)
+	{
+		if (g->id == id)
+		{
+			a = 2;
+			return(a);
+		}
+		else
+		{
+			g = g->seguinte;
+		}
+	}
+	return(a);
+}
+
 // Criar uma nova aresta
 // Devolve 1 em caso de sucesso ou 0 caso contrário
 int criarAresta(Grafo g, char vOrigem, char vDestino, int peso)
@@ -80,7 +98,7 @@ void listarAdjacentes(Grafo g, int id)
 	}
 	if (g == NULL)
 	{
-		printf("Verttice nao encontrado!\n");
+		printf("Vertice nao encontrado!\n");
 		return;
 	}
 	if (g->adjacentes == NULL)
@@ -94,39 +112,6 @@ void listarAdjacentes(Grafo g, int id)
 		printf("Adjacente:%d;Peso:%d;\n", aux->id, aux->peso);
 		aux = aux->seguinte;
 	}
-}
-
-// Inserir meio de transporte na localização com geocódigo passado por parâmetro
-// Devolve 1 em caso de sucesso ou 0 caso contrário
-int inserirMeio(Grafo g, int id, char geocódigo[], int codigoMeio)
-{
-	Mobilidade* mobilidade;
-	while (g != NULL)
-	{
-		if (g->id == id)
-		{
-			while (mobilidade != NULL)
-			{
-				if (strcmp(g->geocódigo, mobilidade->localização) == 0)
-				{
-					Meios novo = malloc(sizeof(struct registo3));
-					novo->codigoMeio = codigoMeio;
-					novo->seguinte = g->meios;
-					g->meios = novo;
-					return(1);
-				}
-				else
-				{
-					mobilidade = mobilidade->seguinte;
-				}
-			}
-		}
-		else 
-		{
-			g = g->seguinte;
-		}
-	}
-	printf("O geocodigo do meio nao e o mesmo do vertice!");
 }
 
 // Listar os códigos dos meios de transporte presente numa determinada localização passada por parâmetro
@@ -154,7 +139,8 @@ void listarMeios(Grafo g, int id)
 		}
 }
 
-void gravarGrafo(Grafo g) {
+void gravarGrafo(Grafo g) 
+{
 	Adjacente adjacentes;
 	int a = 0, b = 0;
 	FILE* fp;
@@ -183,36 +169,57 @@ void gravarGrafo(Grafo g) {
 	}
 	else
 	{
-		printf("O ficheiro esta corrompido!\n");
+		printf("Ficheiro corrompido!\n");
 	}
 }
-Grafo* lerdadosGrafo()
+Grafo* lerdadosGrafo(Grafo g)
 {
 	FILE* fp;
-	Grafo* grafo = NULL;
-
 	fp = fopen("Grafo.txt", "r");
 	int idI = 0, idF = 0, peso = 0;
+	char geocódigo[50];
 
 	if (fp != NULL)
 	{
 		while (!feof(fp))
 		{
-			fscanf(fp, "%d;%d;%d\n", &idI, &idF, &peso);
+			fscanf(fp, "%d;%d;%d;\n", &idI, &idF, &peso);
 			if (idF == 0 && peso == 0) 
 			{
-				criarVertice(&grafo, idI);
+				if (existeVertice2(g, idI) == 1)
+				{
+					criarVertice(&g, idI, geocódigo);
+				}
 			}
 			else
 			{
-				criarVertice(&grafo, idI);
-				criarVertice(&grafo, idF);
-				criarAresta(grafo, idI, idF, peso);
+				if (existeVertice2(g, idI) == 2)
+				{
+					if (existeVertice2(g, idF) == 2)
+					{
+						criarAresta(g, idI, idF, peso);
+					}
+					else
+					{
+						criarVertice(&g, idF, geocódigo);
+						criarAresta(g, idI, idF, peso);
+					}
+				}
+				else
+				{
+					criarVertice(&g, idI, geocódigo);
+					criarVertice(&g, idF, geocódigo);
+					criarAresta(g, idI, idF, peso);
+				}
 			}
 		}
 		fclose(fp);
+		return(g);
 	}
-	return(grafo);
+	else
+	{
+		printf("Ficheiro Corrompido!\n");
+	}
 }
 
 char RuasG(char localização[], int r)
@@ -248,5 +255,163 @@ char RuasG(char localização[], int r)
 	{
 		strcpy(localização, "farto.cheirosa.mentas");
 		return(localização);
+	}
+}
+int InserirMeio(Grafo g, Mobilidade* inicio, int id, int codigoMeio)
+{
+	Mobilidade* mobilidade = inicio;
+	while (g != NULL)
+	{
+		if (g->id == id)
+		{
+		   Meios novo = malloc(sizeof(struct registo3));
+		   novo->codigoMeio = codigoMeio;
+		   novo->seguinte = g->meios;
+	       g->meios = novo;
+		   return(1);
+		}
+		else
+		{
+			g = g->seguinte;
+		}
+	}
+}
+int InserirCliente(Grafo g, Cliente* inicio, int id, int codigonif)
+{
+	Cliente* cliente = inicio;
+	while (g != NULL)
+	{
+		if (g->id == id)
+		{
+			while (cliente != NULL)
+			{
+				Clientes novo = malloc(sizeof(struct registo4));
+				novo->codigo = codigonif;
+				novo->seguinte = g->Cliente;
+				g->Cliente = novo;
+				return(1);
+			}
+		}
+		else
+		{
+			g = g->seguinte;
+		}
+	}
+}
+
+void ListarMeios(Grafo g, int id)
+{
+	while (g != NULL)
+	{
+		if (g->id == id)
+		{
+			Meios aux = g->meios;
+			if (aux == NULL)
+			{
+				printf("sem meios de transporte\n");
+			}
+			else
+			{
+				while (aux != NULL)
+				{
+					printf("Codigo meio: %d\n", aux->codigoMeio);
+					aux = aux->seguinte;
+				}
+			}
+		}
+		g = g->seguinte;
+	}
+}
+
+void ListarClientes(Grafo g, int id)
+{
+	while (g != NULL)
+	{
+		if (g->id == id)
+		{
+			Clientes aux = g->meios;
+			if (aux == NULL)
+			{
+				printf("sem clientes\n");
+			}
+			else
+			{
+				while (aux != NULL)
+				{
+					printf("Codigo meio: %d\n", aux->codigo);
+					aux = aux->seguinte;
+				}
+			}
+		}
+		g = g->seguinte;
+	}
+}
+void gravarGrafoVertice(Grafo g)
+{
+	Meios meios;
+	Clientes clientes;
+	FILE* fp;
+
+	int diff = 0;
+	fp = fopen("GrafoVertice.txt", "w");
+
+
+	if (fp != NULL)
+	{
+		while (g != NULL)
+		{
+			meios = g->meios;
+			while (meios != NULL)
+			{
+				diff = 111;
+				fprintf(fp, "%d;%d;%d\n", g->id, meios->codigoMeio, diff);
+				meios = meios->seguinte;
+			}
+			clientes = g->Cliente;
+			while (clientes != NULL)
+			{
+				diff = 112;
+				fprintf(fp, "%d;%d;%d\n", g->id, clientes->codigo, diff);
+				clientes = clientes->seguinte;
+			}
+			g = g->seguinte;
+		}
+		fclose(fp);
+	}
+	else
+	{
+		printf("O ficheiro esta corrompido!\n");
+	}
+}
+
+Grafo lerdadosGrafoVertice(Grafo g, Mobilidade* inicio, Cliente* c)
+{
+	FILE* fp;
+	Mobilidade* meio = inicio;
+	Cliente* cliente = c;
+	fp = fopen("GrafoVertice.txt", "r");
+
+	int id1 = 0, id2 = 0, diff = 0;
+	char geo[50];
+	if (fp != NULL)
+	{
+		while (!feof(fp))
+		{
+			fscanf(fp, "%d;%d;%d\n", &id1, &id2, &diff);
+			if (diff == 111)
+			{
+				InserirMeio(g, meio, id1, id2);
+			}
+			else if (diff == 112)
+			{
+				InserirCliente(g, cliente, id1, id2);
+			}
+		}
+		fclose(fp);
+		return(g);
+	}
+	else
+	{
+		printf("O ficheiro esta corrompido!");
 	}
 }

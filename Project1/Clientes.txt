@@ -1,1 +1,2 @@
+Rafael;rafa;rafa;10;912422398;249358948;rua;0.000000
 teste;teste;teste;1;1;1;r;0.000000
